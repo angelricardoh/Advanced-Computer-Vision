@@ -1,4 +1,4 @@
-from cv2 import cv2
+import cv2
 
 def run_selective_search():
     img = cv2.imread('./JPEGImages/000009.jpg')
@@ -12,9 +12,14 @@ def run_selective_search():
 
     # create Selective Search Segmentation Object using default parameters
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
-    strategy = cv2.ximgproc.segmentation.createSelectiveSearchSegmentationStrategyColor()
-    ss.setBaseImage(img)
 
+    strategy_color = cv2.ximgproc.segmentation.createSelectiveSearchSegmentationStrategyColor()
+    strategy_texture = cv2.ximgproc.segmentation.createSelectiveSearchSegmentationStrategyTexture()
+    strategy_size = cv2.ximgproc.segmentation.createSelectiveSearchSegmentationStrategySize()
+    strategy_fill = cv2.ximgproc.segmentation.createSelectiveSearchSegmentationStrategyFill()
+    strategy = cv2.ximgproc.segmentation.createSelectiveSearchSegmentationStrategyMultiple(strategy_color, strategy_texture, strategy_size, strategy_fill)
+    
+    ss.setBaseImage(img)
     ss.addStrategy(strategy)
 
     ss.switchToSelectiveSearchFast()

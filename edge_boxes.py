@@ -1,9 +1,8 @@
-from cv2 import cv2
+import cv2
 import numpy as np
 
 def run_edge_boxes():
     img = cv2.imread('./JPEGImages/000009.jpg')
-
 
     edge_detection = cv2.ximgproc.createStructuredEdgeDetection('model.yml.gz')
     rgb_im = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
