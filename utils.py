@@ -41,9 +41,8 @@ def intersection_over_union(box_a, box_b):
 
     return iou
 
-def compute_recall(test_box):
-    return True
-    # for box in gt_boxes:
-    #     if intersection_over_union(test_box, box) > 0.5:
-    #         return True
-    # return False
+def compare_gt(test_box):
+    for box in gt_boxes:
+        if intersection_over_union(test_box, box) > 0.5:
+            return True
+    return False

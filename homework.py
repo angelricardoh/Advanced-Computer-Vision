@@ -7,8 +7,9 @@ import argparse
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--filename', default=None)
+    parser.add_argument('--numproposals', default=None)
     args = parser.parse_args()
 
     utils.parse_xmlfile(args.filename)
-    # ss.run_selective_search(args.filename)
-    es.run_edge_boxes(args.filename)
+    ss.run_selective_search(args.filename, int(args.numproposals), False)
+    es.run_edge_boxes(args.filename, int(args.numproposals), False)
