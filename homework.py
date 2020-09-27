@@ -11,5 +11,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     utils.parse_xmlfile(args.filename)
-    ss.run_selective_search(args.filename, int(args.numproposals), False)
-    es.run_edge_boxes(args.filename, int(args.numproposals), False)
+    print(ss.run_selective_search(args.filename, int(args.numproposals), True))
+    print(es.run_edge_boxes(args.filename, int(args.numproposals), True))

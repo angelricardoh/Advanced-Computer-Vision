@@ -26,33 +26,29 @@ def run_selective_search(image_file, num_proposals, draw_only_positives):
         ss.switchToSelectiveSearchFast()
         # ss.switchToSelectiveSearchQuality()
 
-        bboxes = ss.process()
+        prososal_boxes = ss.process()
 
         image_output = img.copy()
 
-        true_positives = 0
-
         # iterate over all the region proposals
-        for i, rect in enumerate(bboxes):
+        for i, rect in enumerate(prososal_boxes):
             # draw rectangle for region proposal till numShowRects
             if (i < num_proposals):
                 x, y, w, h = rect
                 if draw_only_positives and not utils.compare_gt((x , y, x + w, y + h)):
                     continue
-                true_positives += 1
                 cv2.rectangle(image_output, (x, y), (x + w, y + h), (0, 255, 0), 1, cv2.LINE_AA)
             else:
                 break
 
         if draw_only_positives:
-            utils.draw_groundtruth(img)
+            utils.draw_groundtruth(image_output)
 
-        recall_list.append((true_positives / len(bboxes), len(boxes)))
+        recall_list.append(utils.compute_recall(prososal_boxes))
         # cv2.imshow("Selective search output " + str(strategy), image_output)
-        cv2.imwrite("./ss_output_" + str(strategy) + ".jpg", image_output)
-        cv2.waitKey(5)
+        cv2.imwrite("./ss_output_" + "_" + image_file + "_" + str(strategy) + ".jpg", image_output)
+        # cv2.waitKey(0)
         ss.clearStrategies()
-
         # cv2.destroyAllWindows()
 
     return recall_list

@@ -2,7 +2,6 @@ import xml.etree.ElementTree as ET
 import cv2
 
 gt_boxes = []
-NUM_PROPOSALS = 100
 
 def parse_xmlfile(xmlfile):
     root = ET.parse('./Annotations/' + xmlfile + '.xml')
@@ -28,6 +27,8 @@ def intersection_over_union(box_a, box_b):
 
     # compute the area of intersection rectangle
     intersection_area = max(0, x_b - x_a + 1) * max(0, y_b - y_a + 1)
+    if intersection_area == 0:
+        return 0
 
     # compute the area of both the prediction and ground-truth
     # rectangles
@@ -46,3 +47,14 @@ def compare_gt(test_box):
         if intersection_over_union(test_box, box) > 0.5:
             return True
     return False
+
+def compute_recall(proposal_boxes):
+    true_positives = 0
+    for gt_box in gt_boxes:
+        for proposal_box in proposal_boxes:
+            x, y, w, h = proposal_box # proposal box to gt_coordinates
+            if intersection_over_union(gt_box, (x , y, x + w, y + h)) > 0.5:
+                true_positives += 1
+                break
+    return (true_positives / len(gt_boxes), len(proposal_boxes))
+            
