@@ -116,12 +116,12 @@ if __name__ == '__main__':
 
     # Run training
 
-    # criterion = nn.CrossEntropyLoss()
-    # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-    # train(trainloader, net, criterion, optimizer)
+    train(trainloader, net, criterion, optimizer)
 
-    # torch.save(net.state_dict(), PATH)
+    torch.save(net.state_dict(), PATH)
 
     # Show Results
     load_and_check_results(net, images, testloader)
